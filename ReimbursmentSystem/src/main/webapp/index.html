@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+
+<body>
+
+<div>
+<img id="mainlogo" src="Pics/download.jpeg" class="rounded-circle" alt="PICTURE" width="300" height="200">
+</div>
+
+<div>
+	<div>
+		
+			<div id="userInput" class="form-group">
+			
+				<label for="usernameInput"></label> 
+				<input id="usernameInput" type="text"  class="form-control" placeholder="EmployeeUsername">
+				
+				<label for="passwordInput"></label> 
+				<input id="passwordInput" type="text"  class="form-control" placeholder="EmployeePassword">
+				
+
+				<button id="submitButtonUserLogin">EmployeeLogin</button>
+			</div>
+
+			<div>
+				<label for="managerUsernameInput"></label>
+				<input id="managerUsernameInput" type="text"  class="form-control" placeholder="ManagerUsername">
+
+				<label for="managerPasswordInput"></label> 
+				<input id="managerPasswordInput" type="text"  class="form-control" placeholder="ManagerPassword">
+				
+				
+				<button id="submitButtonManagerLogin">ManagerLogin</button>
+
+
+			</div>
+		
+	</div>
+
+</div> 
+
+</body>
+
+<script>
+
+	document.getElementById("submitButtonUserLogin").addEventListener("click",login);
+	document.getElementById("submitButtonManagerLogin").addEventListener("click",managerLogin);
+
+	//document.getElementById("submitButtonLogin").addEventListener("click",managerLogin);  
+	async function login(){
+	 
+			let username = document.getElementById("usernameInput").value;
+            let password = document.getElementById("passwordInput").value;
+            let parsedUrl = new URL(window.location.href);
+            let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursmentSystem/login/user?username=${username}&password=${password}`);
+            console.log(httpResponse.url);
+            if(httpResponse.url == "http://localhost:8080/ReimbursmentSystem/employee.html"){
+                window.location.href = "http://${parsedUrl.host}/ReimbursmentSystem/employee.html";
+            }
+	}
+
+	async function managerLogin(){
+	 
+		let username = document.getElementById("managerUsernameInput").value;
+		let password = document.getElementById("managerPasswordInput").value;
+		let parsedUrl = new URL(window.location.href);
+		let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursmentSystem/login/manager?username=${username}&password=${password}`);
+		console.log(httpResponse.url);
+		if(httpResponse.url == "http://localhost:8080/ReimbursmentSystem/manager.html"){
+			window.location.href = "http://${parsedUrl.host}/ReimbursmentSystem/manager.html";
+	 	}
+	}
+
+
+
+
+</script>
+
+</html>

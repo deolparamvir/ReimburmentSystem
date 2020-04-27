@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Manager Page</h1>
+
+<p>Welcome to the manager homepage. </p>
+
+
+
+<h3>All Reimbursments</h3>
+<button id="allReimbursmentsBtn">Get All Reimbursments</button>
+
+<table id="ReimbursmentTable">
+    
+    <thead><tr><th>Amount</th><th>Description</th><th>Employee Id</th><th>Your Id</th><th>Completed?</th></tr></thead>
+    
+
+</table>
+
+</body>
+<script>
+
+    document.getElementById("allReimbursmentsBtn").addEventListener("click",getAllReimbursments);
+
+    
+    async function getAllReimbursments(){
+
+        let httpResponse = await fetch("http://localhost:8080/ReimbursmentSystem/api/reimbursmentsByMID");
+        let reimbursments = await httpResponse.json();
+        let tableData = document.getElementById("ReimbursmentTable");
+       
+        for(reimbursment of reimbursments){
+        
+            tableData.innerHTML = tableData.innerHTML + `<tr><td>${reimbursment.amount} </td> 
+            <td> ${reimbursment.description}</td><td>${reimbursment.eId}</td><td>${reimbursment.mId}</td> <td> ${reimbursment.status}</td>  </tr>
+            <button rid=${reimbursment.rId} amount="${reimbursment.amount}" description="${reimbursment.description}" eid="${reimbursment.eId}" mid="${reimbursment.mId}" onclick="approve(this);">Mark Complete</button> </td> </tr>`;
+
+        } 
+    }
+
+   
+
+    async function approve(element){
+        
+        let reimbursment = {};
+        reimbursment.rId= element.getAttribute("rid");
+        reimbursment.amount= Number.parseInt(element.getAttribute("amount"));
+        reimbursment.description = element.getAttribute("description");
+        reimbursment.status = true;
+        reimbursment.mId= element.getAttribute("mid");
+        reimbursment.eId= element.getAttribute("eid");
+        console.log(reimbursment)
+        console.log(element)
+        let settings = {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify(reimbursment)
+        }
+
+        let httpResponse = await fetch("http://localhost:8080/ReimbursmentSystem/api/updateReimbursment", settings); 
+
+        console.log(httpResponse)
+
+    }
+
+</script>
+</html>

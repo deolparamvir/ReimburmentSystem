@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Employee Page</h1>
+
+<p>Welcome to the employee homepage.</p>
+
+<h3>Reimbursment</h3>
+
+<input id="amountInput" type="text" placeholder="Amount">
+<input id="descInput" type="text" placeholder="Description">
+<!-- <input id="priorityInput" type="number" placeholder="Priority on the scale of 1-10"> -->
+<input id="managerInput" type="text" placeholder="Manager ID">
+<input id="employeeInput" type="text" placeholder="Your ID">
+
+
+<button id="addReimbursmentBtn">Add Reimbursment</button>
+
+
+
+<h3>All Reimbursments</h3>
+<button id="allReimbursmentsBtn">Get All Reimbursments</button>
+<button id="getAllManagers">Managers</button>
+<button id="logout">logout</button>
+
+<table id="ReimbursmentTable">
+    <thead><tr><th>Amount</th><th>Description</th><th>Your Id</th><th>Manager Id</th><th>Completed?</th></tr></thead>
+    
+
+</table>
+
+</body>
+<script>
+
+    document.getElementById("allReimbursmentsBtn").addEventListener("click",getAllReimbursments);
+    document.getElementById("addReimbursmentBtn").addEventListener("click",addReimbursment);
+    document.getElementById("logout").addEventListener("click",logout);
+    
+    async function logout(){
+
+        
+    }    
+    
+    async function getAllReimbursments(){
+
+        let httpResponse = await fetch("http://localhost:8080/ReimbursmentSystem/api/reimbursmentsByEID");
+        let reimbursments = await httpResponse.json();
+        let tableData = document.getElementById("ReimbursmentTable");
+       
+        for(reimbursment of reimbursments){
+        
+            tableData.innerHTML = tableData.innerHTML + `<tr><td>${reimbursment.amount} </td> 
+            <td> ${reimbursment.description}</td><td>${reimbursment.eId}</td><td>${reimbursment.mId}</td> <td> ${reimbursment.status}</td>  </tr>`;
+
+        }    
+    }
+
+    async function addReimbursment(){
+        
+        let reimbursment = {
+            rId:0,
+            status:false,
+            //eId:1
+        }
+        // appending the properties to the object after it is created
+        reimbursment.amount = Number.parseInt(document.getElementById("amountInput").value);
+        reimbursment.description = document.getElementById("descInput").value;
+        reimbursment.mId = Number.parseInt(document.getElementById("managerInput").value);
+        reimbursment.eId = Number.parseInt(document.getElementById("employeeInput").value);
+        let settings = {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify(reimbursment)
+        }
+
+        let httpResponse = await fetch("http://localhost:8080/ReimbursmentSystem/api/addReimbursment", settings); 
+
+        console.log(httpResponse)
+    }
+
+   
+
+</script>
+</html>

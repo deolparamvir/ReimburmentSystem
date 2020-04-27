@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <style>
+            button{
+                text-align: center;
+            }
+        </style>
+        <title>Login Page</title>
+    </head>
+    <body>
+        <h1 style="text-align: center;">Reimbursement Login</h1>
+        <br><br>
+        <div class="container">
+            <div class="row">
+                <div class="col-md">
+                    <h2>Login as Manager</h2>
+                    <div class="form-group col-7">
+                        <label for="managerUsernameInput">Username:</label>
+                        <input id="managerUsernameInput" class="form-control" type="text" placeholder="username">
+                    </div>
+                    <div class="form-group col-7">
+                        <label for="managerPasswordInput">Password:</label>
+                        <input id="managerPasswordInput" class="form-control" type="text" placeholder="password">
+                    </div>
+                    <div class="form-group col-7">
+                        <button id="managerLoginBtn" class="btn btn-primary" onclick="managerLogin()">Login</button>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <h2>Login as Employee</h2>
+                    <div class="form-group col-7">
+                        <label for="employeeUsernameInput">Username:</label>
+                        <input id="employeeUsernameInput" class="form-control" type="text" placeholder="username">
+                    </div>
+                    <div class="form-group col-7">
+                        <label for="employeePasswordInput">Password:</label>
+                        <input id="employeePasswordInput" class="form-control" type="text" placeholder="password">
+                    </div>
+                    <div class="form-group col-7">
+                        <button id="employeeLoginBtn" class="btn btn-primary" onclick="employeeLogin()">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+    <script>
+        async function managerLogin(){
+            let username = document.getElementById("managerUsernameInput").value;
+            let password = document.getElementById("managerPasswordInput").value;
+            let parsedUrl = new URL(window.location.href);
+            let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/login/manager?username=${username}&password=${password}`);
+            console.log(httpResponse.url);
+            if(httpResponse.url == "http://localhost:8075/ReimbursementProject/manager.html"){
+                window.location.href = `http://${parsedUrl.host}/ReimbursementProject/manager.html`;
+            }
+        }
+        async function employeeLogin(){
+            let username = document.getElementById("employeeUsernameInput").value;
+            let password = document.getElementById("employeePasswordInput").value;
+            let parsedUrl = new URL(window.location.href);
+            let httpResponse = await fetch(`http://${parsedUrl.host}/ReimbursementProject/login/employee?username=${username}&password=${password}`);
+            console.log(httpResponse.url);
+            if(httpResponse.url == "http://localhost:8075/ReimbursementProject/employee.html"){
+                window.location.href = `http://${parsedUrl.host}/ReimbursementProject/employee.html`;
+            }
+        }
+    </script>
+</html>
